@@ -5,7 +5,7 @@
 
 To install the package, please run the following command in Terminal: 
 ```{python} 
-pip install pip@git+https://github.com/yunanwu123/TFRE_python
+pip install git+https://github.com/yunanwu123/TFRE_python
 ```
 
 
