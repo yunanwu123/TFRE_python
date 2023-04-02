@@ -158,6 +158,5 @@ setup(
     packages=['TFRE'], 
     cmdclass={"build_ext": BuildExt},
     ext_modules=ext_modules, 
-    zip_safe=False,
 )
  
