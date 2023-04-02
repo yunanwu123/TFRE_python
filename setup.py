@@ -4,7 +4,18 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
-import subprocess
+import subprocess 
+from wheel.bdist_wheel import bdist_wheel
+
+def get_plat_name():
+    """Parses value of the --plat-name from the program arguments."""
+
+class wheel(bdist_wheel):
+    def finalize_options(self):
+        super().finalize_options()
+        self.plat_name = get_plat_name()
+
+
 
 def find_eigen(hint=[]):
     """
@@ -156,7 +167,7 @@ setup(
     ], 
     install_requires=['pybind11>=2.2', 'numpy>=1.10', 'matplotlib'],
     packages=['TFRE'], 
-    cmdclass={"build_ext": BuildExt},
-    ext_modules=ext_modules, 
+    cmdclass={"build_ext": BuildExt, "bdist_wheel": wheel},
+    ext_modules=ext_modules,  
 )
  
