@@ -6,6 +6,7 @@
 To install the package, please run the following codes in Python:
 
 ```{python} 
+pip install pip@git+https://github.com/yunanwu123/TFRE_python
 ```
 
 

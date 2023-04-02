@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression &#8212; TFRE  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TFRE package" href="docs/TFRE.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="docs/TFRE.html" title="TFRE package"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">TFRE  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tfre-a-tuning-free-robust-and-efficient-approach-to-high-dimensional-regression">
+<h1>TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression<a class="headerlink" href="#tfre-a-tuning-free-robust-and-efficient-approach-to-high-dimensional-regression" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/TFRE.html">TFRE package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/TFRE.html#module-TFRE.TFRE">TFRE.TFRE module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><a class="reference internal" href="#wang2020" id="id1"><span>[Wang2020]</span></a> proposed the TFRE Lasso estimator for high-dimensional linear regressions with heavy-tailed errors as below: $$\widehat{\boldsymbol{\beta}}(\lambda^{*}) = \arg\min_{\boldsymbol{\beta}}\frac{1}{n(n-1)}{\sum\sum}_{i\neq j}\left|(Y_i-\boldsymbol{x}_i^T\boldsymbol{\beta})-(Y_j-\boldsymbol{x}_j^T\boldsymbol{\beta})\right| + \lambda^{*}\sum_{k=1}^p|\beta_k|,$$
+where <span class="math notranslate nohighlight">\(\lambda^{*}\)</span> is the tuning parameter which can be estimated independent of errors. In <a class="reference internal" href="#wang2020" id="id2"><span>[Wang2020]</span></a>, the following tuning parameter is suggested $$\lambda^{*} = const_{\lambda} * G^{-1}_{||\boldsymbol{S}_n||_\infty}(1-\alpha_0), $$
+where <span class="math notranslate nohighlight">\(\boldsymbol{S}_n = -2[n(n-1)]^{-1}\sum_{j=1}^n\boldsymbol{x}_j[2r_j-(n+1)]\)</span>, <span class="math notranslate nohighlight">\(r_1,\ldots,r_n\)</span> follows the uniform distribution on the permutations of the integers <span class="math notranslate nohighlight">\(\{1,\ldots,n\}\)</span>, and <span class="math notranslate nohighlight">\(G^{-1}_{||\boldsymbol{S}_n||_\infty}(1-\alpha_0)\)</span> denotes the <span class="math notranslate nohighlight">\((1-\alpha_0)\)</span>-quantile of the distribution of <span class="math notranslate nohighlight">\(||\boldsymbol{S}_n||_\infty\)</span>.</p>
+<p>In this package, the TFRE Lasso model is fitted by QICD algorithm proposed in <a class="reference internal" href="#pengwang2015" id="id3"><span>[PengWang2015]</span></a>. To overcome the computational barrier arising from the U-statistics structure of the aforementioned loss function, we apply the <em>Incomplete U-statistics</em> resampling technique which was first proposed in <a class="reference internal" href="#clemencon2016" id="id4"><span>[Clemencon2016]</span></a>.</p>
+<p><a class="reference internal" href="#wang2020" id="id5"><span>[Wang2020]</span></a> also proposed a second-stage enhancement by using the TFRE Lasso estimator <span class="math notranslate nohighlight">\(\widehat{\boldsymbol{\beta}}(\lambda^{*})\)</span> as an initial estimator. It is defined as:
+$$\widetilde{\boldsymbol{\beta}}^{(1)} = \arg\min_{\boldsymbol{\beta}}\frac{1}{n(n-1)}{\sum\sum}_{i\neq j}\left|(Y_i-\boldsymbol{x}_i^T\boldsymbol{\beta})-(Y_j-\boldsymbol{x}_j^T\boldsymbol{\beta})\right| + \sum_{k=1}^pp_{\eta}’( | \widehat{\beta}_{k} (\lambda^{*}) | )|\beta_k|,$$ where <span class="math notranslate nohighlight">\(p'_{\eta}(\cdot)\)</span> denotes the derivative of some nonconvex penalty function  <span class="math notranslate nohighlight">\(p_{\eta}(\cdot)\)</span>, <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span> is a tuning parameter. This function implements the second-stage enhancement with two popular nonconvex penalty functions: SCAD and MCP. The modified high-dimensional BIC criterion in <a class="reference internal" href="#wang2020" id="id6"><span>[Wang2020]</span></a> is employed for selecting <span class="math notranslate nohighlight">\(\eta\)</span>. Define: $$HBIC(\eta) = \log\left\{{\sum\sum}_{i\neq j}\left|(Y_i-\boldsymbol{x}_i^T\widetilde{\boldsymbol{\beta}}_{\eta})-(Y_j-\boldsymbol{x}_j^T\widetilde{\boldsymbol{\beta}}_{\eta})\right|\right\} + | A_{\eta} | \frac{\log\log n}{n* const\_hbic}\log p,$$
+where <span class="math notranslate nohighlight">\(\widetilde{\boldsymbol{\beta}}_{\eta}\)</span> denotes the second-stage estimator with the tuning parameter value <span class="math notranslate nohighlight">\(\eta\)</span>, and <span class="math notranslate nohighlight">\(|A_{\eta}|\)</span> denotes the cardinality of the index set of the selected model. In this package, we select the value of <span class="math notranslate nohighlight">\(\eta\)</span> that minimizes HBIC(<span class="math notranslate nohighlight">\(\eta\)</span>).</p>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+<section id="reference">
+<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this heading">¶</a></h1>
+<div role="list" class="citation-list">
+<div class="citation" id="wang2020" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Wang2020<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>,<a role="doc-backlink" href="#id5">3</a>,<a role="doc-backlink" href="#id6">4</a>)</span>
+<p>Lan Wang, Bo Peng, Jelena Bradic, Runze Li &amp; Yunan Wu (2020) A Tuning-free Robust and Efficient Approach to High-dimensional Regression, Journal of the American Statistical Association, 115:532, 1700-1714, <a class="reference external" href="https://doi.org/10.1080/01621459.2020.1840989">DOI: 10.1080/01621459.2020.1840989</a>.</p>
+</div>
+<div class="citation" id="pengwang2015" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">PengWang2015</a><span class="fn-bracket">]</span></span>
+<p>Bo Peng &amp; Lan Wang (2015) An Iterative Coordinate Descent Algorithm for High-Dimensional Nonconvex Penalized Quantile Regression, Journal of Computational and Graphical Statistics, 24:3, 676-694, <a class="reference external" href="https://doi.org/10.1080/10618600.2014.913516">DOI: 10.1080/10618600.2014.913516</a>.</p>
+</div>
+<div class="citation" id="clemencon2016" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Clemencon2016</a><span class="fn-bracket">]</span></span>
+<p>Stephan Clemencon, Igor Colin, &amp; Aurelien Bellet, (2016). Scaling-up empirical risk minimization: optimization of incomplete U-statistics. The Journal of Machine Learning Research, 17(1), 2682-2717.</p>
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="docs/TFRE.html"
+                          title="next chapter">TFRE package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="docs/TFRE.html" title="TFRE package"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">TFRE  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Yunan Wu, Lan Wang.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>

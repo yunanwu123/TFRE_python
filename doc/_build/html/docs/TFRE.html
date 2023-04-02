@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>TFRE package &#8212; TFRE  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">TFRE  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tfre-package">
+<h1>TFRE package<a class="headerlink" href="#tfre-package" title="Permalink to this heading">¶</a></h1>
+<section id="module-TFRE.TFRE">
+<span id="tfre-tfre-module"></span><h2>TFRE.TFRE module<a class="headerlink" href="#module-TFRE.TFRE" title="Permalink to this heading">¶</a></h2>
+<p>A Tuning-free Robust and Efficient (TFRE) Approach to High-dimensional Regression</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TFRE.TFRE.</span></span><span class="sig-name descname"><span class="pre">TFRE</span></span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to perform TFRE regrssions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>model</strong> (<em>TFRE.model class</em>) – The class used to record the regression details.</p></li>
+<li><p><strong>TFRE_Lasso</strong> (<em>TFRE.Lasso class</em>) – The class used to record the results of the TFRE regrssion with Lasso penalty.</p></li>
+<li><p><strong>TFRE_scad</strong> (<em>TFRE.SCAD class</em>) – The class used to record the results of the TFRE regrssion with SCAD
+penalty. <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">scad</span></code>.</p></li>
+<li><p><strong>TFRE_mcp</strong> (<em>TFRE.MCP class</em>) – The class used to record the results of the TFRE regrssion with MCP
+penalty. <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">mcp</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.Lasso">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Lasso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta_TFRE_Lasso</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfre_lambda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.Lasso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.Lasso" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class used to record the results of the TFRE regrssion with Lasso penalty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>beta_TFRE_Lasso</strong> (<em>np.ndarray([p+1,])</em>) – The estimated coefficient vector of the TFRE Lasso regression. The
+first element is the estimated intercept.</p></li>
+<li><p><strong>tfre_lambda</strong> (<em>np.ndarray([1,])</em>) – The estimated tuning parameter of the TFRE Lasso regression.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.MCP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MCP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Beta_TFRE_mcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_TFRE_mcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hbic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_ind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.MCP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.MCP" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class used to record the results of the TFRE regrssion with MCP penalty.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">mcp</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>Beta_TFRE_mcp</strong> (<em>np.ndarray([k,p+1])</em>) – The estimated coefficient matrix of the TFRE MCP regression. The
+diminsion is k x (p+1) with the first column to be the intercepts,
+where k is the length of <code class="docutils literal notranslate"><span class="pre">eta_list</span></code> vector.</p></li>
+<li><p><strong>df_TFRE_mcp</strong> (<em>np.ndarray([k,])</em>) – The number of nonzero coefficients (intercept excluded) for each
+value in <code class="docutils literal notranslate"><span class="pre">eta_list</span></code>.</p></li>
+<li><p><strong>eta_list</strong> (<em>np.ndarray([k,])</em>) – The tuning parameter vector used in the TFRE MCP regressions.</p></li>
+<li><p><strong>hbic</strong> (<em>np.ndarray([k,])</em>) – A numerical vector of HBIC values for the TFRE MCP model corresponding
+to each value in <code class="docutils literal notranslate"><span class="pre">eta_list</span></code>.</p></li>
+<li><p><strong>eta_min</strong> (<em>float</em>) – The eta value which yields the smallest HBIC value in the TFRE MCP
+regression.</p></li>
+<li><p><strong>beta_TFRE_mcp_min</strong> (<em>np.ndarray([p+1,])</em>) – The estimated coefficient vector which employs <code class="docutils literal notranslate"><span class="pre">eta_min</span></code> as the
+eta value in the TFRE MCP regression.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.SCAD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SCAD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Beta_TFRE_scad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_TFRE_scad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hbic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_ind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.SCAD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.SCAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class used to record the results of the TFRE regrssion with SCAD penalty.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">scad</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>Beta_TFRE_scad</strong> (<em>np.ndarray([k,p+1])</em>) – The estimated coefficient matrix of the TFRE SCAD regression. The
+diminsion is k x (p+1) with the first column to be the intercepts,
+where k is the length of <code class="docutils literal notranslate"><span class="pre">eta_list</span></code> vector.</p></li>
+<li><p><strong>df_TFRE_scad</strong> (<em>np.ndarray([k,])</em>) – The number of nonzero coefficients (intercept excluded) for each
+value in <code class="docutils literal notranslate"><span class="pre">eta_list</span></code>.</p></li>
+<li><p><strong>eta_list</strong> (<em>np.ndarray([k,])</em>) – The tuning parameter vector used in the TFRE SCAD regressions.</p></li>
+<li><p><strong>hbic</strong> (<em>np.ndarray([k,])</em>) – A numerical vector of HBIC values for the TFRE SCAD model corresponding
+to each value in <code class="docutils literal notranslate"><span class="pre">eta_list</span></code>.</p></li>
+<li><p><strong>eta_min</strong> (<em>float</em>) – The eta value which yields the smallest HBIC value in the TFRE SCAD
+regression.</p></li>
+<li><p><strong>beta_TFRE_scad_min</strong> (<em>np.ndarray([p+1,])</em>) – The estimated coefficient vector which employs <code class="docutils literal notranslate"><span class="pre">eta_min</span></code> as the
+eta value in the TFRE SCAD regression.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.coef">
+<span class="sig-name descname"><span class="pre">coef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.coef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.coef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract coefficients from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em><em>, </em><em>optional</em>) – Regression model to use for coefficient extraction. Should be one
+of <code class="docutils literal notranslate"><span class="pre">&quot;1st&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The coefficient vector from the fitted <code class="docutils literal notranslate"><span class="pre">TFRE</span></code> class, with the first
+element as the intercept.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray([p+1,])</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code> cannot be <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>. If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">None</span></code>
+and <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">&quot;2nd&quot;</span></code>, the function will return the coefficient vector from
+the TFRE Lasso regression. If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">&quot;2nd&quot;</span></code>, the function will return the coefficient vector from the
+TFRE SCAD or MCP regression with the smallest HBIC.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TFRE</span> <span class="kn">import</span> <span class="n">TFRE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.25</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">TFRE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">eta_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.09</span><span class="p">,</span><span class="mf">0.51</span><span class="p">,</span><span class="mf">0.03</span><span class="p">))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">..</span><span class="n">coef</span><span class="p">(</span><span class="s2">&quot;1st&quot;</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="go">array([-0.12943468,  1.21390299, -0.82102807,  0.56632981, -0.20740154,</span>
+<span class="go">        0.        ,  0.        ,  0.        ,  0.        ,  0.        ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">..</span><span class="n">coef</span><span class="p">(</span><span class="s2">&quot;2nd&quot;</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="go">array([-0.13552865,  1.63426996, -1.13200778,  1.1699545 , -0.47397631,</span>
+<span class="go">        0.17350995,  0.        ,  0.        ,  0.        ,  0.        ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.est_lambda">
+<span class="sig-name descname"><span class="pre">est_lambda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.est_lambda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.est_lambda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the tuning parameter for a TFRE Lasso regression given the covariate matrix X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em><em>(</em><em>[</em><em>n</em><em>,</em><em>p</em><em>]</em><em>)</em>) – Input matrix of the regression.</p></li>
+<li><p><strong>alpha0</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 0.1</em>) – The level to estimate the tuning parameter.</p></li>
+<li><p><strong>const_lambda</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 1.01</em>) – The constant to estimate the tuning parameter, should be greater than 1.</p></li>
+<li><p><strong>times</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default = 500</em>) – The size of simulated samples to estimate the tuning parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The estimated tuning parameter of the TFRE Lasso regression given X.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TFRE</span> <span class="kn">import</span> <span class="n">TFRE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">TFRE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">est_lambda</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="go">[0.43150559039112646]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incomplete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_incomplete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_stage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'scad'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const_hbic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a TFRE regression model with Lasso, SCAD or MCP regularization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em><em>(</em><em>[</em><em>n</em><em>,</em><em>p</em><em>]</em><em>)</em>) – Input matrix of the regression.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em><em>(</em><em>[</em><em>n</em><em>,</em><em>]</em><em>)</em>) – Response vector of the regression.</p></li>
+<li><p><strong>alpha0</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 0.1</em>) – The level to estimate the tuning parameter.</p></li>
+<li><p><strong>const_lambda</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 1.01</em>) – The constant to estimate the tuning parameter, should be greater than 1.</p></li>
+<li><p><strong>times</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default = 500</em>) – The size of simulated samples to estimate the tuning parameter.</p></li>
+<li><p><strong>incomplete</strong> (bool, optional, defaule = <code class="docutils literal notranslate"><span class="pre">True</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the <em>Incomplete U-statistics</em> resampling technique would
+be applied in computation. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the complete U-statistics
+would be used in computation.</p></li>
+<li><p><strong>const_incomplete</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default = 10</em>) – The constant for the <em>Incomplete U-statistics</em> technique. If `
+<cite>incomplete = TRUE`</cite>, <code class="docutils literal notranslate"><span class="pre">const_incomplete</span></code> x n samples will be
+randomly selected in the coefficient estimation.</p></li>
+<li><p><strong>thresh</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 1e-6</em>) – Convergence threshold for QICD algorithm.</p></li>
+<li><p><strong>maxin</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default = 100</em>) – Maximum number of inner coordiante descent iterations in QICD algorithm.</p></li>
+<li><p><strong>maxout</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default = 20</em>) – Maximum number of outter Majoriaztion Minimization step (MM) iterations
+in QICD algorithm.</p></li>
+<li><p><strong>second_stage</strong> (str, optional, default = <code class="docutils literal notranslate"><span class="pre">&quot;scad&quot;</span></code>) – Penalty function for the second stage model. One of <code class="docutils literal notranslate"><span class="pre">&quot;scad&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>.</p></li>
+<li><p><strong>a</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 3.7</em><em>, </em><em>suggested by Fan and Li</em><em> (</em><em>2001</em><em>)</em>) – an unknown parameter in SCAD and MCP penalty functions.</p></li>
+<li><p><strong>eta_list</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default = 3.7</em><em>, </em><em>suggested by Fan and Li</em><em> (</em><em>2001</em><em>)</em>) – A numerical vector for the tuning parameters to be used in the TFRE S
+CAD or MCP regression. Cannot be <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code>
+or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;</span></code>.</p></li>
+<li><p><strong>const_hbic</strong> (<em>int</em><em>, </em><em>optional</em><em>,  </em><em>default = 6</em>) – The constant to be used in calculating HBIC in the TFRE SCAD regression.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>self</strong> – a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class with attributes “model”, “TFRE_Lasso”,
+“TFRE_scad” (if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code>), and “TFRE_mcp”(if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;mcp&quot;</span></code>).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incomplete</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_stage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>a class used to record the regression details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray([n,p])</em>) – Input matrix of the regression.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray([n,])</em>) – Response vector of the regression.</p></li>
+<li><p><strong>incomplete</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the <em>Incomplete U-statistics</em> resampling technique would
+be applied in computation. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the complete U-statistics
+would be used in computation.</p></li>
+<li><p><strong>second_stage</strong> (<em>str</em>) – Penalty function for the second stage model. One of <code class="docutils literal notranslate"><span class="pre">&quot;scad&quot;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the second stage model curve for a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This function plots the HBIC curve and the model size curve as a
+function of the <code class="docutils literal notranslate"><span class="pre">eta</span></code> values used, from a fitted TFRE SCAD or MCP
+model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>In the output plot, the red line represents the HBIC curve as a function
+of <code class="docutils literal notranslate"><span class="pre">eta</span></code> values, the blue line represents the number of nonzero coefficients
+as a function of <code class="docutils literal notranslate"><span class="pre">eta</span></code> values, and the purple vertical dashed line denotes
+the model selected with the smallest HBIC.</p>
+<p>This function cannot plot the object if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TFRE</span> <span class="kn">import</span> <span class="n">TFRE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.25</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">TFRE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">eta_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.09</span><span class="p">,</span><span class="mf">0.51</span><span class="p">,</span><span class="mf">0.03</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/plot.png" src="../_images/plot.png" />
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="TFRE.TFRE.TFRE.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make predictions from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class for new X values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>newX</strong> (np.ndarray([<span class="math notranslate nohighlight">\(n_0\)</span>,p])) – Matrix of new values for X at which predictions are to be made.</p></li>
+<li><p><strong>s</strong> (<em>str</em><em>, </em><em>optional</em>) – Regression model to use for prediction. Should be one of <code class="docutils literal notranslate"><span class="pre">&quot;1st&quot;</span></code>
+and <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The vector of predictions for the new X values given the fitted
+<code class="docutils literal notranslate"><span class="pre">TFRE</span></code> class.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray([<span class="math notranslate nohighlight">\(n_0\)</span>,])</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code> cannot be <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>. If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">None</span></code>
+and <code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">&quot;2nd&quot;</span></code>, the function will return the predictions based on the
+TFRE Lasso regression. If <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">s</span> <span class="pre">=</span> <span class="pre">&quot;2nd&quot;</span></code>, the function will return the predictions based on the T
+FRE SCAD or MCP regression with the smallest HBIC.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TFRE</span> <span class="kn">import</span> <span class="n">TFRE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.25</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">TFRE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">eta_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.09</span><span class="p">,</span><span class="mf">0.51</span><span class="p">,</span><span class="mf">0.03</span><span class="p">))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">newX</span><span class="p">,</span><span class="s2">&quot;2nd&quot;</span><span class="p">)</span>
+<span class="go">array([ 2.61684897,  2.66548778, -0.13456993, -0.67466848,  3.92941648,</span>
+<span class="go">        1.21428428, -1.66033086, -2.13238483,  0.95340816, -2.32122001])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TFRE package</a><ul>
+<li><a class="reference internal" href="#module-TFRE.TFRE">TFRE.TFRE module</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../index.html"
+                          title="previous chapter">TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/TFRE.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">TFRE  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Yunan Wu, Lan Wang.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>

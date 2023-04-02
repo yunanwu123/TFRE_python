@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TFRE.TFRE &#8212; TFRE  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">TFRE  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE.TFRE</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for TFRE.TFRE</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A Tuning-free Robust and Efficient (TFRE) Approach to High-dimensional Regression</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+ 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">QICD</span>
+
+<div class="viewcode-block" id="TFRE"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE">[docs]</a><span class="k">class</span> <span class="nc">TFRE</span><span class="p">:</span>     
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class used to perform TFRE regrssions</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model : TFRE.model class</span>
+<span class="sd">        The class used to record the regression details.</span>
+<span class="sd">    TFRE_Lasso : TFRE.Lasso class</span>
+<span class="sd">        The class used to record the results of the TFRE regrssion with Lasso penalty. </span>
+<span class="sd">    TFRE_scad : TFRE.SCAD class</span>
+<span class="sd">        The class used to record the results of the TFRE regrssion with SCAD </span>
+<span class="sd">        penalty. ``None`` if ``second_stage`` is not ``scad``. </span>
+<span class="sd">    TFRE_mcp : TFRE.MCP class</span>
+<span class="sd">        The class used to record the results of the TFRE regrssion with MCP </span>
+<span class="sd">        penalty. ``None`` if ``second_stage`` is not ``mcp``.</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TFRE.model"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.model">[docs]</a>    <span class="k">class</span> <span class="nc">model</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a class used to record the regression details.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : np.ndarray([n,p])</span>
+<span class="sd">            Input matrix of the regression.</span>
+<span class="sd">        y : np.ndarray([n,])</span>
+<span class="sd">            Response vector of the regression. </span>
+<span class="sd">        incomplete : bool</span>
+<span class="sd">            If ``True``, the *Incomplete U-statistics* resampling technique would </span>
+<span class="sd">            be applied in computation. If ``False``, the complete U-statistics </span>
+<span class="sd">            would be used in computation. </span>
+<span class="sd">        second_stage : str</span>
+<span class="sd">            Penalty function for the second stage model. One of ``&quot;scad&quot;``, </span>
+<span class="sd">            ``&quot;mcp&quot;`` and ``&quot;none&quot;``. </span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">incomplete</span><span class="p">,</span><span class="n">second_stage</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">incomplete</span> <span class="o">=</span> <span class="n">incomplete</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">=</span> <span class="n">second_stage</span></div>
+        
+    
+<div class="viewcode-block" id="TFRE.Lasso"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.Lasso">[docs]</a>    <span class="k">class</span> <span class="nc">Lasso</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a class used to record the results of the TFRE regrssion with Lasso penalty. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        beta_TFRE_Lasso : np.ndarray([p+1,])</span>
+<span class="sd">            The estimated coefficient vector of the TFRE Lasso regression. The </span>
+<span class="sd">            first element is the estimated intercept.</span>
+<span class="sd">        tfre_lambda : np.ndarray([1,])</span>
+<span class="sd">            The estimated tuning parameter of the TFRE Lasso regression.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">beta_TFRE_Lasso</span><span class="p">,</span><span class="n">tfre_lambda</span><span class="p">):</span>  
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span> <span class="o">=</span> <span class="n">beta_TFRE_Lasso</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tfre_lambda</span> <span class="o">=</span> <span class="n">tfre_lambda</span> </div>
+    
+    
+<div class="viewcode-block" id="TFRE.SCAD"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.SCAD">[docs]</a>    <span class="k">class</span> <span class="nc">SCAD</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a class used to record the results of the TFRE regrssion with SCAD penalty. </span>
+<span class="sd">        ``None`` if ``second_stage`` is not ``scad``. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Beta_TFRE_scad : np.ndarray([k,p+1])</span>
+<span class="sd">            The estimated coefficient matrix of the TFRE SCAD regression. The </span>
+<span class="sd">            diminsion is k x (p+1) with the first column to be the intercepts, </span>
+<span class="sd">            where k is the length of ``eta_list`` vector.</span>
+<span class="sd">        df_TFRE_scad : np.ndarray([k,])</span>
+<span class="sd">            The number of nonzero coefficients (intercept excluded) for each </span>
+<span class="sd">            value in ``eta_list``. </span>
+<span class="sd">        eta_list : np.ndarray([k,])</span>
+<span class="sd">            The tuning parameter vector used in the TFRE SCAD regressions.</span>
+<span class="sd">        hbic : np.ndarray([k,])</span>
+<span class="sd">            A numerical vector of HBIC values for the TFRE SCAD model corresponding </span>
+<span class="sd">            to each value in ``eta_list``. </span>
+<span class="sd">        eta_min : float</span>
+<span class="sd">            The eta value which yields the smallest HBIC value in the TFRE SCAD</span>
+<span class="sd">            regression.</span>
+<span class="sd">        beta_TFRE_scad_min : np.ndarray([p+1,])</span>
+<span class="sd">            The estimated coefficient vector which employs ``eta_min`` as the </span>
+<span class="sd">            eta value in the TFRE SCAD regression. </span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Beta_TFRE_scad</span><span class="p">,</span><span class="n">df_TFRE_scad</span><span class="p">,</span><span class="n">eta_list</span><span class="p">,</span><span class="n">hbic</span><span class="p">,</span><span class="n">min_ind</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Beta_TFRE_scad</span> <span class="o">=</span> <span class="n">Beta_TFRE_scad</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df_TFRE_scad</span> <span class="o">=</span> <span class="n">df_TFRE_scad</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eta_list</span> <span class="o">=</span> <span class="n">eta_list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hbic</span> <span class="o">=</span> <span class="n">hbic</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eta_min</span> <span class="o">=</span> <span class="n">eta_list</span><span class="p">[</span><span class="n">min_ind</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta_TFRE_scad_min</span> <span class="o">=</span> <span class="n">Beta_TFRE_scad</span><span class="p">[</span><span class="n">min_ind</span><span class="p">,]</span></div>
+ 
+            
+<div class="viewcode-block" id="TFRE.MCP"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.MCP">[docs]</a>    <span class="k">class</span> <span class="nc">MCP</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a class used to record the results of the TFRE regrssion with MCP penalty. </span>
+<span class="sd">        ``None`` if ``second_stage`` is not ``mcp``.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Beta_TFRE_mcp : np.ndarray([k,p+1])</span>
+<span class="sd">            The estimated coefficient matrix of the TFRE MCP regression. The </span>
+<span class="sd">            diminsion is k x (p+1) with the first column to be the intercepts, </span>
+<span class="sd">            where k is the length of ``eta_list`` vector.</span>
+<span class="sd">        df_TFRE_mcp : np.ndarray([k,])</span>
+<span class="sd">            The number of nonzero coefficients (intercept excluded) for each </span>
+<span class="sd">            value in ``eta_list``. </span>
+<span class="sd">        eta_list : np.ndarray([k,])</span>
+<span class="sd">            The tuning parameter vector used in the TFRE MCP regressions.</span>
+<span class="sd">        hbic : np.ndarray([k,])</span>
+<span class="sd">            A numerical vector of HBIC values for the TFRE MCP model corresponding </span>
+<span class="sd">            to each value in ``eta_list``. </span>
+<span class="sd">        eta_min : float</span>
+<span class="sd">            The eta value which yields the smallest HBIC value in the TFRE MCP</span>
+<span class="sd">            regression.</span>
+<span class="sd">        beta_TFRE_mcp_min : np.ndarray([p+1,])</span>
+<span class="sd">            The estimated coefficient vector which employs ``eta_min`` as the </span>
+<span class="sd">            eta value in the TFRE MCP regression.  </span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Beta_TFRE_mcp</span><span class="p">,</span><span class="n">df_TFRE_mcp</span><span class="p">,</span><span class="n">eta_list</span><span class="p">,</span><span class="n">hbic</span><span class="p">,</span><span class="n">min_ind</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Beta_TFRE_mcp</span> <span class="o">=</span> <span class="n">Beta_TFRE_mcp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df_TFRE_mcp</span> <span class="o">=</span> <span class="n">df_TFRE_mcp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eta_list</span> <span class="o">=</span> <span class="n">eta_list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hbic</span> <span class="o">=</span> <span class="n">hbic</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eta_min</span> <span class="o">=</span> <span class="n">eta_list</span><span class="p">[</span><span class="n">min_ind</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta_TFRE_mcp_min</span> <span class="o">=</span> <span class="n">Beta_TFRE_mcp</span><span class="p">[</span><span class="n">min_ind</span><span class="p">,]</span> </div>
+            
+            
+<div class="viewcode-block" id="TFRE.est_lambda"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.est_lambda">[docs]</a>    <span class="k">def</span> <span class="nf">est_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Estimate the tuning parameter for a TFRE Lasso regression given the covariate matrix X.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : np.ndarray([n,p])</span>
+<span class="sd">            Input matrix of the regression.</span>
+<span class="sd">        alpha0 : float, optional, default = 0.1</span>
+<span class="sd">            The level to estimate the tuning parameter.  </span>
+<span class="sd">        const_lambda : float, optional, default = 1.01</span>
+<span class="sd">            The constant to estimate the tuning parameter, should be greater than 1.</span>
+<span class="sd">        times : int, optional, default = 500</span>
+<span class="sd">            The size of simulated samples to estimate the tuning parameter. </span>
+<span class="sd">  </span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : float</span>
+<span class="sd">            The estimated tuning parameter of the TFRE Lasso regression given X. </span>
+<span class="sd">             </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from TFRE import TFRE</span>
+<span class="sd">        &gt;&gt;&gt; n = 100</span>
+<span class="sd">        &gt;&gt;&gt; p = 400</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.normal(0,1,size=(n,p))</span>
+<span class="sd">        &gt;&gt;&gt; obj = TFRE()</span>
+<span class="sd">        &gt;&gt;&gt; obj.est_lambda(X)</span>
+<span class="sd">        [0.43150559039112646]</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in est_lambda():</span><span class="se">\n</span><span class="s2">Please supply the covariate matrix X to estimate the tuning parameter for TFRE Lasso&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+
+        <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">times</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+            <span class="n">epsilon_tfre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  
+            <span class="n">xi</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">epsilon_tfre</span><span class="o">-</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="n">n</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">alpha0</span><span class="p">)</span><span class="o">*</span><span class="n">const_lambda</span></div>
+    
+    
+    <span class="k">def</span> <span class="nf">__p_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">second_stage</span><span class="p">,</span> <span class="n">lamb</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">3.7</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;scad&quot;</span><span class="p">:</span>
+            <span class="n">less</span> <span class="o">=</span> <span class="n">theta</span><span class="o">&lt;=</span><span class="n">lamb</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">lamb</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">lamb</span><span class="o">*</span><span class="n">less</span><span class="o">+</span><span class="n">y</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">less</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">lamb</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">,</span><span class="n">lamb</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="mf">1e-3</span><span class="p">)</span>
+ 
+    
+    <span class="k">def</span> <span class="nf">__hbic_tfre_second</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">beta_int</span><span class="p">,</span> <span class="n">second_stage</span><span class="p">,</span> 
+                         <span class="n">lambda_list</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">maxin</span><span class="p">,</span> <span class="n">maxout</span><span class="p">,</span> <span class="n">const</span><span class="p">):</span>
+        <span class="n">n_lamb</span> <span class="o">=</span> <span class="n">lambda_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
+        <span class="n">p</span> <span class="o">=</span> <span class="n">newx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  
+        <span class="n">hbic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_lamb</span><span class="p">)</span>
+        <span class="n">Beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_lamb</span><span class="p">,</span><span class="n">p</span><span class="p">])</span>
+        <span class="n">C_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">/</span><span class="n">n</span> 
+        <span class="n">logp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> 
+        <span class="n">lamb_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">])</span> 
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_lamb</span><span class="p">):</span>
+            <span class="n">penalty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__p_diff</span><span class="p">(</span><span class="n">beta_int</span><span class="p">,</span><span class="n">second_stage</span><span class="p">,</span><span class="n">lambda_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">a</span><span class="p">)</span>  
+            <span class="n">x_update</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">penalty</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">QICD</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_update</span><span class="p">,</span><span class="n">newy</span><span class="p">,</span><span class="n">lamb_list</span><span class="p">,</span><span class="n">thresh</span><span class="p">,</span><span class="n">maxin</span><span class="p">,</span><span class="n">maxout</span><span class="p">)</span>    
+            <span class="n">beta_2nd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">penalty</span><span class="p">)</span>
+            <span class="n">Beta</span><span class="p">[</span><span class="n">i</span><span class="p">,]</span> <span class="o">=</span> <span class="n">beta_2nd</span> 
+            <span class="n">hbic</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">newy</span> <span class="o">-</span> <span class="n">newx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta_2nd</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">p</span><span class="p">,)))))</span> <span class="o">+</span> <span class="n">logp</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">beta_2nd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-06</span><span class="p">)</span> <span class="o">*</span> <span class="n">C_n</span><span class="o">/</span><span class="n">const</span>
+
+        <span class="k">return</span> <span class="n">hbic</span><span class="p">,</span> <span class="n">Beta</span> 
+     
+        
+<div class="viewcode-block" id="TFRE.fit"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> 
+            <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">incomplete</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">const_incomplete</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> 
+            <span class="n">thresh</span> <span class="o">=</span> <span class="mf">1e-06</span><span class="p">,</span> <span class="n">maxin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">maxout</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">second_stage</span> <span class="o">=</span> <span class="s2">&quot;scad&quot;</span><span class="p">,</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="mf">3.7</span><span class="p">,</span> <span class="n">eta_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">const_hbic</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;Fit a TFRE regression model with Lasso, SCAD or MCP regularization.</span>
+<span class="sd"> </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : np.ndarray([n,p])</span>
+<span class="sd">            Input matrix of the regression.</span>
+<span class="sd">        y : np.ndarray([n,])</span>
+<span class="sd">            Response vector of the regression.  </span>
+<span class="sd">        alpha0 : float, optional, default = 0.1</span>
+<span class="sd">            The level to estimate the tuning parameter.  </span>
+<span class="sd">        const_lambda : float, optional, default = 1.01</span>
+<span class="sd">            The constant to estimate the tuning parameter, should be greater than 1.</span>
+<span class="sd">        times : int, optional, default = 500</span>
+<span class="sd">            The size of simulated samples to estimate the tuning parameter. </span>
+<span class="sd">        incomplete : bool, optional, defaule = ``True``</span>
+<span class="sd">            If ``True``, the *Incomplete U-statistics* resampling technique would </span>
+<span class="sd">            be applied in computation. If ``False``, the complete U-statistics </span>
+<span class="sd">            would be used in computation. </span>
+<span class="sd">        const_incomplete : int, optional, default = 10</span>
+<span class="sd">            The constant for the *Incomplete U-statistics* technique. If `</span>
+<span class="sd">            `incomplete = TRUE``, ``const_incomplete`` x n samples will be </span>
+<span class="sd">            randomly selected in the coefficient estimation.</span>
+<span class="sd">        thresh : float, optional, default = 1e-6</span>
+<span class="sd">            Convergence threshold for QICD algorithm.</span>
+<span class="sd">        maxin : int, optional, default = 100</span>
+<span class="sd">            Maximum number of inner coordiante descent iterations in QICD algorithm.</span>
+<span class="sd">        maxout : int, optional, default = 20</span>
+<span class="sd">            Maximum number of outter Majoriaztion Minimization step (MM) iterations </span>
+<span class="sd">            in QICD algorithm. </span>
+<span class="sd">        second_stage : str, optional, default = ``&quot;scad&quot;``</span>
+<span class="sd">            Penalty function for the second stage model. One of ``&quot;scad&quot;``, </span>
+<span class="sd">            ``&quot;mcp&quot;`` and ``&quot;none&quot;``. </span>
+<span class="sd">        a : float, optional, default = 3.7, suggested by Fan and Li (2001)</span>
+<span class="sd">            an unknown parameter in SCAD and MCP penalty functions.</span>
+<span class="sd">        eta_list : float, optional, default = 3.7, suggested by Fan and Li (2001)</span>
+<span class="sd">            A numerical vector for the tuning parameters to be used in the TFRE S</span>
+<span class="sd">            CAD or MCP regression. Cannot be ``None`` if ``second_stage = &quot;scad&quot;``</span>
+<span class="sd">            or ``&quot;mcp&quot;``.</span>
+<span class="sd">        const_hbic : int, optional,  default = 6</span>
+<span class="sd">            The constant to be used in calculating HBIC in the TFRE SCAD regression.</span>
+<span class="sd">      </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self: object</span>
+<span class="sd">            a fitted :class:`TFRE` class with attributes &quot;model&quot;, &quot;TFRE_Lasso&quot;, </span>
+<span class="sd">            &quot;TFRE_scad&quot; (if ``second_stage = &quot;scad&quot;``), and &quot;TFRE_mcp&quot;(if ``second_stage = &quot;mcp&quot;``).</span>
+<span class="sd">    </span>
+<span class="sd">                </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in fit():</span><span class="se">\n</span><span class="s2">Please supply the data (X, y) for the regression&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in fit():</span><span class="se">\n</span><span class="s2">The row number of X and the length of y should be consistent&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="n">second_stage</span><span class="o">!=</span><span class="s2">&quot;none&quot;</span> <span class="ow">and</span> <span class="n">eta_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in fit():</span><span class="se">\n</span><span class="s2">Please supply the tuning parameter list for the TFRE SCAD or MCP regression&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+         
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">incomplete</span><span class="p">,</span><span class="n">second_stage</span><span class="p">)</span>
+        <span class="c1">#{&quot;X&quot;: X, &quot;y&quot;: y, &quot;incomplete&quot;: incomplete, &quot;second_stage&quot;: second_stage}</span>
+      
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">xbar</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ybar</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">lam_lasso</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">est_lambda</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">alpha0</span><span class="p">,</span> <span class="n">const_lambda</span><span class="p">,</span> <span class="n">times</span><span class="p">)])</span>
+          
+        <span class="k">def</span> <span class="nf">numpy_pairwise_combinations</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],]</span>
+        
+        <span class="n">x_diff</span> <span class="o">=</span> <span class="n">numpy_pairwise_combinations</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_diff</span> <span class="o">=</span> <span class="n">numpy_pairwise_combinations</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">n_diff</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_diff</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">incomplete</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_diff</span><span class="p">,</span><span class="n">const_incomplete</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+            <span class="n">newx</span> <span class="o">=</span> <span class="n">x_diff</span><span class="p">[</span><span class="n">ind</span><span class="p">,]</span>
+            <span class="n">newy</span> <span class="o">=</span> <span class="n">y_diff</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">newx</span> <span class="o">=</span> <span class="n">x_diff</span>
+            <span class="n">newy</span> <span class="o">=</span> <span class="n">y_diff</span> 
+      
+        <span class="n">beta_Lasso</span> <span class="o">=</span> <span class="n">QICD</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">lam_lasso</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">maxin</span><span class="p">,</span> <span class="n">maxout</span><span class="p">)</span>
+        <span class="n">intercpt_Lasso</span> <span class="o">=</span> <span class="n">ybar</span> <span class="o">-</span> <span class="n">beta_Lasso</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xbar</span><span class="p">)</span> 
+        <span class="n">beta_TFRE_Lasso</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intercpt_Lasso</span><span class="p">,</span> <span class="n">beta_Lasso</span><span class="p">)</span> 
+          
+        <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lasso</span><span class="p">(</span><span class="n">beta_TFRE_Lasso</span><span class="p">,</span><span class="n">lam_lasso</span><span class="p">)</span> 
+        
+        <span class="k">if</span> <span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;scad&quot;</span><span class="p">:</span>
+            <span class="n">hbic</span><span class="p">,</span> <span class="n">beta_scad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hbic_tfre_second</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">beta_Lasso</span><span class="p">,</span> 
+                                                      <span class="n">second_stage</span><span class="p">,</span> <span class="n">eta_list</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> 
+                                                      <span class="n">thresh</span><span class="p">,</span> <span class="n">maxin</span><span class="p">,</span> <span class="n">maxout</span><span class="p">,</span> <span class="n">const_hbic</span><span class="p">)</span> 
+            <span class="n">intercpt_scad</span> <span class="o">=</span> <span class="n">ybar</span> <span class="o">-</span> <span class="n">beta_scad</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xbar</span><span class="p">)</span> 
+            <span class="n">Beta_TFRE_scad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">intercpt_scad</span><span class="p">,</span><span class="n">beta_scad</span><span class="p">))</span>  
+            <span class="n">min_ind</span> <span class="o">=</span> <span class="n">hbic</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">df_TFRE_scad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">beta_scad</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCAD</span><span class="p">(</span><span class="n">Beta_TFRE_scad</span><span class="p">,</span><span class="n">df_TFRE_scad</span><span class="p">,</span><span class="n">eta_list</span><span class="p">,</span><span class="n">hbic</span><span class="p">,</span><span class="n">min_ind</span><span class="p">)</span> 
+              
+        <span class="k">elif</span> <span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;mcp&quot;</span><span class="p">:</span>
+            <span class="n">hbic</span><span class="p">,</span> <span class="n">beta_mcp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hbic_tfre_second</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">beta_Lasso</span><span class="p">,</span> 
+                                                     <span class="n">second_stage</span><span class="p">,</span> <span class="n">eta_list</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> 
+                                                     <span class="n">thresh</span><span class="p">,</span> <span class="n">maxin</span><span class="p">,</span> <span class="n">maxout</span><span class="p">,</span> <span class="n">const_hbic</span><span class="p">)</span>
+            <span class="n">intercpt_mcp</span> <span class="o">=</span> <span class="n">ybar</span> <span class="o">-</span> <span class="n">beta_mcp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xbar</span><span class="p">)</span>  
+            <span class="n">Beta_TFRE_mcp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">intercpt_mcp</span><span class="p">,</span><span class="n">beta_mcp</span><span class="p">))</span>  
+            <span class="n">min_ind</span> <span class="o">=</span> <span class="n">hbic</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
+            <span class="n">df_TFRE_mcp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">beta_mcp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MCP</span><span class="p">(</span><span class="n">Beta_TFRE_mcp</span><span class="p">,</span><span class="n">df_TFRE_mcp</span><span class="p">,</span><span class="n">eta_list</span><span class="p">,</span><span class="n">hbic</span><span class="p">,</span><span class="n">min_ind</span><span class="p">)</span> 
+           
+        <span class="k">elif</span> <span class="n">second_stage</span> <span class="o">!=</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Warning in fit():</span><span class="se">\n</span><span class="s2">&#39;second_stage&#39; should be one of &#39;none&#39;, &#39;scad&#39; and &#39;mcp&#39;&quot;&quot;&quot;</span><span class="p">)</span>
+  
+        <span class="k">return</span> <span class="bp">self</span></div>
+  
+             
+<div class="viewcode-block" id="TFRE.predict"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newX</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot;Make predictions from a fitted :class:`TFRE` class for new X values.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        newX : np.ndarray([:math:`n_0`,p])</span>
+<span class="sd">            Matrix of new values for X at which predictions are to be made.</span>
+<span class="sd">        s : str, optional </span>
+<span class="sd">            Regression model to use for prediction. Should be one of ``&quot;1st&quot;`` </span>
+<span class="sd">            and ``&quot;2nd&quot;``.</span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : np.ndarray([:math:`n_0`,])</span>
+<span class="sd">            The vector of predictions for the new X values given the fitted </span>
+<span class="sd">            ``TFRE`` class. </span>
+<span class="sd">         </span>
+<span class="sd">        Notes</span>
+<span class="sd">        ----- </span>
+<span class="sd">        If ``second_stage = None``, ``s`` cannot be ``&quot;2nd&quot;``. If ``second_stage = None``</span>
+<span class="sd">        and ``s = &quot;2nd&quot;``, the function will return the predictions based on the </span>
+<span class="sd">        TFRE Lasso regression. If ``second_stage = &quot;scad&quot;`` or ``&quot;mcp&quot;``, and </span>
+<span class="sd">        ``s = &quot;2nd&quot;``, the function will return the predictions based on the T</span>
+<span class="sd">        FRE SCAD or MCP regression with the smallest HBIC.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from TFRE import TFRE</span>
+<span class="sd">        &gt;&gt;&gt; n = 100</span>
+<span class="sd">        &gt;&gt;&gt; p = 400</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.normal(0,1,size=(n,p))</span>
+<span class="sd">        &gt;&gt;&gt; beta =  np.append([1.5,-1.25,1,-0.75,0.5],np.zeros(p-5))</span>
+<span class="sd">        &gt;&gt;&gt; y = X.dot(beta) + np.random.normal(0,1,n)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; obj = TFRE()</span>
+<span class="sd">        &gt;&gt;&gt; obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; newX = np.random.normal(0,1,size=(10,p))</span>
+<span class="sd">        &gt;&gt;&gt; obj.predict(newX,&quot;2nd&quot;)</span>
+<span class="sd">        array([ 2.61684897,  2.66548778, -0.13456993, -0.67466848,  3.92941648,</span>
+<span class="sd">                1.21428428, -1.66033086, -2.13238483,  0.95340816, -2.32122001])</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">newX</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">newX</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in predict():</span><span class="se">\n</span><span class="s2">Please supply a numpy.ndarray for &#39;newX&#39;&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;TFRE_Lasso&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in predict():</span><span class="se">\n</span><span class="s2">Please supply a valid &#39;TFRE&#39; object&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">newX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">p</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in predict():</span><span class="se">\n</span><span class="s2"> The number of variables in &#39;newX&#39; must be&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="n">s</span><span class="o">==</span><span class="s2">&quot;1st&quot;</span><span class="p">:</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">newX</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+        <span class="k">elif</span><span class="p">(</span><span class="n">s</span><span class="o">==</span><span class="s2">&quot;2nd&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;scad&quot;</span><span class="p">:</span>
+                <span class="n">pred</span> <span class="o">=</span> <span class="n">newX</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">beta_TFRE_scad_min</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">beta_TFRE_scad_min</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;mcp&quot;</span><span class="p">:</span>
+                <span class="n">pred</span> <span class="o">=</span> <span class="n">newX</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">beta_TFRE_mcp_min</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">beta_TFRE_mcp_min</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pred</span> <span class="o">=</span> <span class="n">newX</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Warning in predict():</span><span class="se">\n</span><span class="s2">The object doesn&#39;t include a second stage model. Return the predicted values according to the TFRE Lasso regression&quot;&quot;&quot;</span><span class="p">)</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in predict():</span><span class="se">\n</span><span class="s2">s should be one of &#39;1st&#39; and &#39;2nd&#39;&quot;&quot;&quot;</span><span class="p">)</span>  
+            <span class="k">return</span>
+        
+        <span class="k">return</span> <span class="n">pred</span></div>
+    
+    
+<div class="viewcode-block" id="TFRE.coef"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.coef">[docs]</a>    <span class="k">def</span> <span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>  
+        <span class="sd">&quot;&quot;&quot;Extract coefficients from a fitted :class:`TFRE` class. </span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------- </span>
+<span class="sd">        s : str, optional </span>
+<span class="sd">            Regression model to use for coefficient extraction. Should be one </span>
+<span class="sd">            of ``&quot;1st&quot;`` and ``&quot;2nd&quot;``.</span>
+<span class="sd"> </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : np.ndarray([p+1,])</span>
+<span class="sd">            The coefficient vector from the fitted ``TFRE`` class, with the first </span>
+<span class="sd">            element as the intercept.</span>
+
+<span class="sd">         </span>
+<span class="sd">        Notes</span>
+<span class="sd">        ----- </span>
+<span class="sd">        If ``second_stage = None``, ``s`` cannot be ``&quot;2nd&quot;``. If ``second_stage = None`` </span>
+<span class="sd">        and ``s = &quot;2nd&quot;``, the function will return the coefficient vector from </span>
+<span class="sd">        the TFRE Lasso regression. If ``second_stage = &quot;scad&quot;`` or ``&quot;mcp&quot;``, and</span>
+<span class="sd">        ``s = &quot;2nd&quot;``, the function will return the coefficient vector from the </span>
+<span class="sd">        TFRE SCAD or MCP regression with the smallest HBIC.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from TFRE import TFRE</span>
+<span class="sd">        &gt;&gt;&gt; n = 100</span>
+<span class="sd">        &gt;&gt;&gt; p = 400</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.normal(0,1,size=(n,p))</span>
+<span class="sd">        &gt;&gt;&gt; beta =  np.append([1.5,-1.25,1,-0.75,0.5],np.zeros(p-5))</span>
+<span class="sd">        &gt;&gt;&gt; y = X.dot(beta) + np.random.normal(0,1,n)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; obj = TFRE()</span>
+<span class="sd">        &gt;&gt;&gt; obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; obj..coef(&quot;1st&quot;)[:10]</span>
+<span class="sd">        array([-0.12943468,  1.21390299, -0.82102807,  0.56632981, -0.20740154,</span>
+<span class="sd">                0.        ,  0.        ,  0.        ,  0.        ,  0.        ])</span>
+<span class="sd">        &gt;&gt;&gt; obj..coef(&quot;2nd&quot;)[:10]</span>
+<span class="sd">        array([-0.13552865,  1.63426996, -1.13200778,  1.1699545 , -0.47397631,</span>
+<span class="sd">                0.17350995,  0.        ,  0.        ,  0.        ,  0.        ])</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;TFRE_Lasso&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in coef():</span><span class="se">\n</span><span class="s2">Please supply a valid &#39;TFRE&#39; object&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="n">s</span><span class="o">==</span><span class="s2">&quot;1st&quot;</span><span class="p">:</span>
+            <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">s</span><span class="o">==</span><span class="s2">&quot;2nd&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;scad&quot;</span><span class="p">:</span>
+                <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">beta_TFRE_scad_min</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;mcp&quot;</span><span class="p">:</span>
+                <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">beta_TFRE_mcp_min</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_Lasso</span><span class="o">.</span><span class="n">beta_TFRE_Lasso</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Warning in coef():</span><span class="se">\n</span><span class="s2">The object doesn&#39;t include a second stage model. Return the coefficient vector from the TFRE Lasso regression&quot;&quot;&quot;</span><span class="p">)</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in coef():</span><span class="se">\n</span><span class="s2">s should be one of &#39;1st&#39; and &#39;2nd&#39;&quot;&quot;&quot;</span><span class="p">)</span>  
+            <span class="k">return</span>
+        
+        <span class="k">return</span> <span class="n">coef</span></div>
+
+
+<div class="viewcode-block" id="TFRE.plot"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="sd">&quot;&quot;&quot;Plot the second stage model curve for a fitted :class:`TFRE` class.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        : Figure</span>
+<span class="sd">            This function plots the HBIC curve and the model size curve as a </span>
+<span class="sd">            function of the ``eta`` values used, from a fitted TFRE SCAD or MCP </span>
+<span class="sd">            model.</span>
+
+<span class="sd">         </span>
+<span class="sd">        Notes</span>
+<span class="sd">        ----- </span>
+<span class="sd">        In the output plot, the red line represents the HBIC curve as a function</span>
+<span class="sd">        of ``eta`` values, the blue line represents the number of nonzero coefficients</span>
+<span class="sd">        as a function of ``eta`` values, and the purple vertical dashed line denotes</span>
+<span class="sd">        the model selected with the smallest HBIC.</span>
+<span class="sd">        </span>
+<span class="sd">        This function cannot plot the object if ``second_stage = None``.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from TFRE import TFRE</span>
+<span class="sd">        &gt;&gt;&gt; n = 100</span>
+<span class="sd">        &gt;&gt;&gt; p = 400</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.normal(0,1,size=(n,p))</span>
+<span class="sd">        &gt;&gt;&gt; beta =  np.append([1.5,-1.25,1,-0.75,0.5],np.zeros(p-5))</span>
+<span class="sd">        &gt;&gt;&gt; y = X.dot(beta) + np.random.normal(0,1,n)</span>
+<span class="sd">        &gt;&gt;&gt;  </span>
+<span class="sd">        &gt;&gt;&gt; obj = TFRE()</span>
+<span class="sd">        &gt;&gt;&gt; obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))</span>
+<span class="sd">        &gt;&gt;&gt; obj.plot() </span>
+<span class="sd">        </span>
+<span class="sd">        .. image::  ../plot.png</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;TFRE_Lasso&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in coef():</span><span class="se">\n</span><span class="s2">Please supply a valid &#39;TFRE&#39; object&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> 
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;scad&quot;</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+            <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+            <span class="n">_lines1_</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_list</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">hbic</span><span class="p">,</span>
+                                 <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HBIC&quot;</span><span class="p">)</span> 
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;eta value&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;HBIC&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelcolor</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            
+            <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+            <span class="n">_lines2_</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_list</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">df_TFRE_scad</span><span class="p">,</span>
+                                 <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;df&quot;</span><span class="p">)</span>  
+            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;df&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelcolor</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tab:purple&#39;</span><span class="p">,</span> 
+                        <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+            
+            <span class="n">lns</span> <span class="o">=</span> <span class="p">[</span><span class="n">_lines1_</span><span class="p">,</span> <span class="n">_lines2_</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lns</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lns</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">frameon</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">second_stage</span> <span class="o">==</span> <span class="s2">&quot;mcp&quot;</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+            <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+            <span class="n">_lines1_</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_list</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">hbic</span><span class="p">,</span>
+                                 <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HBIC&quot;</span><span class="p">)</span> 
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;eta value&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;HBIC&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelcolor</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            
+            <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+            <span class="n">_lines2_</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_list</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">df_TFRE_mcp</span><span class="p">,</span>
+                                 <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;df&quot;</span><span class="p">)</span>  
+            <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;df&quot;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelcolor</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tab:purple&#39;</span><span class="p">,</span> 
+                        <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+            
+            <span class="n">lns</span> <span class="o">=</span> <span class="p">[</span><span class="n">_lines1_</span><span class="p">,</span> <span class="n">_lines2_</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lns</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lns</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">frameon</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in plot():</span><span class="se">\n</span><span class="s2">Please supply a valid &#39;TFRE&#39; object with a second stage model&quot;&quot;&quot;</span><span class="p">)</span>  
+            <span class="k">return</span>
+             
+        <span class="k">return</span> <span class="n">fig</span></div></div>
+ 
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">TFRE  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TFRE.TFRE</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Yunan Wu, Lan Wang.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>
