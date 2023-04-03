@@ -134,7 +134,7 @@ class BuildExt(build_ext):
  
 
 __version__  = '0.0.1' 
-DESCRIPTION = 'A Tuning-free Robust and Efficient Approach to High-dimensional Regression' 
+DESCRIPTION = 'A Tuning-Free Robust and Efficient Approach to High-dimensional Regression' 
 
 setup( 
     name='TFRE',
