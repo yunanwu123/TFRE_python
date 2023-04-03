@@ -1,7 +1,7 @@
 # TFRE_python: A Tuning-free Robust and Efficient Approach to High-dimensional Regression 
  This Python package provides functions to estimate the coefficients in high-dimensional linear regressions via a tuning-free and robust approach.  The method was published in Lan Wang, Bo Peng, Jelena Bradic, Runze Li and Yunan Wu (2020) A tuning-free robust and efficient approach to high-dimensional regression. Journal of the American Statistical Association, 115, 1700-1714 (JASA’s discussion paper). See also Lan Wang, Bo Peng, Jelena Bradic, Runze Li and Yunan Wu (2020), Rejoinder to “A tuning-free robust and efficient approach to high-dimensional regression". Journal of the American Statistical Association, 115, 1726-1729.
 
-You can preview the package documentation [here](https://rawcdn.githack.com/yunanwu123/TFRE_python/58029648199f9f4db1fc257bedacb0f2774102b0/doc/_build/html/index.html).
+You can preview the package documentation [here](https://rawcdn.githack.com/yunanwu123/TFRE_python/f08e5f18e06748b4a3c936e65a6892e055cb5051/doc/index.rst).
 
 To install the package, please run the following command in Terminal: 
 ```{python} 
