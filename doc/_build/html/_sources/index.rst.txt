@@ -4,7 +4,7 @@
    contain the root `toctree` directive. 
 
 
-TFRE: A Tuning-free Robust and Efficient Approach to High-dimensional Regression
+TFRE: A Tuning-Free Robust and Efficient Approach to High-dimensional Regression
 =================================================================================
 
 .. toctree::

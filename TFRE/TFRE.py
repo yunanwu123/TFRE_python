@@ -1,5 +1,5 @@
 """
-A Tuning-free Robust and Efficient (TFRE) Approach to High-dimensional Regression
+A Tuning-Free Robust and Efficient (TFRE) Approach to High-dimensional Regression
 
 """
  
@@ -409,7 +409,7 @@ class TFRE:
         
         p = self.model.X.shape[1]
         if newX.shape[1] != p:
-            print("""Error in predict():\n The number of variables in 'newX' must be""", p)
+            print("""Error in predict():\nThe number of variables in 'newX' must be""", p)
             return 
         
         if s=="1st":
