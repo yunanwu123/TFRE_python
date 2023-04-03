@@ -72,7 +72,6 @@ ext_modules = [
             get_pybind_include(user=True),
             find_eigen([''])
         ],
-        'python -m pybind11 --includes',
         language='c++'
     )
 ]
