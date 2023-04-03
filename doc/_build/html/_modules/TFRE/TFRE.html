@@ -181,7 +181,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">beta_TFRE_mcp_min</span> <span class="o">=</span> <span class="n">Beta_TFRE_mcp</span><span class="p">[</span><span class="n">min_ind</span><span class="p">,]</span> </div>
             
             
-<div class="viewcode-block" id="TFRE.est_lambda"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.est_lambda">[docs]</a>    <span class="k">def</span> <span class="nf">est_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">):</span>
+<div class="viewcode-block" id="TFRE.est_lambda"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.est_lambda">[docs]</a>    <span class="k">def</span> <span class="nf">est_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Estimate the tuning parameter for a TFRE Lasso regression given the covariate matrix X.</span>
 <span class="sd">         </span>
 <span class="sd">        Parameters</span>
@@ -260,7 +260,7 @@
         <span class="k">return</span> <span class="n">hbic</span><span class="p">,</span> <span class="n">Beta</span> 
      
         
-<div class="viewcode-block" id="TFRE.fit"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> 
+<div class="viewcode-block" id="TFRE.fit"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> 
             <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">incomplete</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">const_incomplete</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> 
             <span class="n">thresh</span> <span class="o">=</span> <span class="mf">1e-06</span><span class="p">,</span> <span class="n">maxin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">maxout</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">second_stage</span> <span class="o">=</span> <span class="s2">&quot;scad&quot;</span><span class="p">,</span>
             <span class="n">a</span> <span class="o">=</span> <span class="mf">3.7</span><span class="p">,</span> <span class="n">eta_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">const_hbic</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span> 
@@ -307,11 +307,24 @@
 <span class="sd">      </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        self: object</span>
+<span class="sd">        self: :class:`TFRE` class</span>
 <span class="sd">            a fitted :class:`TFRE` class with attributes &quot;model&quot;, &quot;TFRE_Lasso&quot;, </span>
 <span class="sd">            &quot;TFRE_scad&quot; (if ``second_stage = &quot;scad&quot;``), and &quot;TFRE_mcp&quot;(if ``second_stage = &quot;mcp&quot;``).</span>
 <span class="sd">    </span>
-<span class="sd">                </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from TFRE import TFRE</span>
+<span class="sd">        &gt;&gt;&gt; n = 100</span>
+<span class="sd">        &gt;&gt;&gt; p = 400</span>
+<span class="sd">        &gt;&gt;&gt; X = np.random.normal(0,1,size=(n,p))</span>
+<span class="sd">        &gt;&gt;&gt; beta =  np.append([1.5,-1.25,1,-0.75,0.5],np.zeros(p-5))</span>
+<span class="sd">        &gt;&gt;&gt; y = X.dot(beta) + np.random.normal(0,1,n)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; obj = TFRE()</span>
+<span class="sd">        &gt;&gt;&gt; obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))</span>
+<span class="sd">        &lt;TFRE.TFRE.TFRE at 0x148111e10&gt;</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Error in fit():</span><span class="se">\n</span><span class="s2">Please supply the data (X, y) for the regression&quot;&quot;&quot;</span><span class="p">)</span>
@@ -381,14 +394,14 @@
         <span class="k">return</span> <span class="bp">self</span></div>
   
              
-<div class="viewcode-block" id="TFRE.predict"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newX</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span> 
+<div class="viewcode-block" id="TFRE.predict"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newX</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> 
         <span class="sd">&quot;&quot;&quot;Make predictions from a fitted :class:`TFRE` class for new X values.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        newX : np.ndarray([:math:`n_0`,p])</span>
 <span class="sd">            Matrix of new values for X at which predictions are to be made.</span>
-<span class="sd">        s : str, optional </span>
+<span class="sd">        s : str</span>
 <span class="sd">            Regression model to use for prediction. Should be one of ``&quot;1st&quot;`` </span>
 <span class="sd">            and ``&quot;2nd&quot;``.</span>
 <span class="sd"> </span>
@@ -455,12 +468,12 @@
         <span class="k">return</span> <span class="n">pred</span></div>
     
     
-<div class="viewcode-block" id="TFRE.coef"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.coef">[docs]</a>    <span class="k">def</span> <span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>  
+<div class="viewcode-block" id="TFRE.coef"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.coef">[docs]</a>    <span class="k">def</span> <span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>  
         <span class="sd">&quot;&quot;&quot;Extract coefficients from a fitted :class:`TFRE` class. </span>
 <span class="sd">         </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ---------- </span>
-<span class="sd">        s : str, optional </span>
+<span class="sd">        s : str</span>
 <span class="sd">            Regression model to use for coefficient extraction. Should be one </span>
 <span class="sd">            of ``&quot;1st&quot;`` and ``&quot;2nd&quot;``.</span>
 <span class="sd"> </span>

@@ -268,11 +268,24 @@ class TFRE:
       
         Returns
         -------
-        self: 
+        self: :class:`TFRE` class
             a fitted :class:`TFRE` class with attributes "model", "TFRE_Lasso", 
             "TFRE_scad" (if ``second_stage = "scad"``), and "TFRE_mcp"(if ``second_stage = "mcp"``).
     
-                
+        Examples
+        --------
+        >>> import numpy as np
+        >>> from TFRE import TFRE
+        >>> n = 100
+        >>> p = 400
+        >>> X = np.random.normal(0,1,size=(n,p))
+        >>> beta =  np.append([1.5,-1.25,1,-0.75,0.5],np.zeros(p-5))
+        >>> y = X.dot(beta) + np.random.normal(0,1,n)
+        >>> 
+        >>> obj = TFRE()
+        >>> obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))
+        <TFRE.TFRE.TFRE at 0x148111e10>
+        
         """
         if X is None or y is None:
             print("""Error in fit():\nPlease supply the data (X, y) for the regression""")

@@ -133,11 +133,11 @@ eta value in the TFRE SCAD regression.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.coef">
-<span class="sig-name descname"><span class="pre">coef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.coef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.coef" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">coef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.coef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.coef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract coefficients from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<em>str</em><em>, </em><em>optional</em>) – Regression model to use for coefficient extraction. Should be one
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – Regression model to use for coefficient extraction. Should be one
 of <code class="docutils literal notranslate"><span class="pre">&quot;1st&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -245,9 +245,23 @@ or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;<
 “TFRE_scad” (if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code>), and “TFRE_mcp”(if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;mcp&quot;</span></code>).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>object</p>
+<dd class="field-odd"><p><a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">TFRE</span> <span class="kn">import</span> <span class="n">TFRE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span><span class="o">-</span><span class="mf">1.25</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">TFRE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">eta_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.09</span><span class="p">,</span><span class="mf">0.51</span><span class="p">,</span><span class="mf">0.03</span><span class="p">))</span>
+<span class="go">&lt;TFRE.TFRE.TFRE at 0x148111e10&gt;</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -309,13 +323,13 @@ the model selected with the smallest HBIC.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.predict" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make predictions from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class for new X values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>newX</strong> (np.ndarray([<span class="math notranslate nohighlight">\(n_0\)</span>,p])) – Matrix of new values for X at which predictions are to be made.</p></li>
-<li><p><strong>s</strong> (<em>str</em><em>, </em><em>optional</em>) – Regression model to use for prediction. Should be one of <code class="docutils literal notranslate"><span class="pre">&quot;1st&quot;</span></code>
+<li><p><strong>s</strong> (<em>str</em>) – Regression model to use for prediction. Should be one of <code class="docutils literal notranslate"><span class="pre">&quot;1st&quot;</span></code>
 and <code class="docutils literal notranslate"><span class="pre">&quot;2nd&quot;</span></code>.</p></li>
 </ul>
 </dd>
