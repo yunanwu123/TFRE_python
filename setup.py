@@ -75,7 +75,6 @@ ext_modules = [
         language='c++'
     )
 ]
-print(os.getcwd())
 
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
