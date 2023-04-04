@@ -13,13 +13,7 @@ def find_eigen(hint=[]):
     ``None`` on failure.
     """
     # List the standard locations including a user supplied hint.
-    search_dirs = ["/usr/local/include/eigen3",
-                   "/usr/local/homebrew/include/eigen3",
-                   "/opt/local/var/macports/software/eigen3",
-                   "/opt/local/include/eigen3",
-                   "/usr/include/eigen3",
-                   "/usr/include/local",
-                   "/usr/include",
+    search_dirs = [
                    ] + hint
 
     # Loop over search paths and check for the existence of the Eigen/Dense
