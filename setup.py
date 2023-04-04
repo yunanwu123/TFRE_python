@@ -140,7 +140,7 @@ setup(
     version=__version__,
     description=DESCRIPTION,  
     license="MIT license", 
-    python_requires='>=3.10',
+    python_requires='>=3.6',
     keywords=['TFRE', 'high dimensional analysis'], 
     author = "Yunan Wu, Lan Wang",
     author_email= "yunan.wu@utdallas.edu, lanwang@mbs.miami.edu",
