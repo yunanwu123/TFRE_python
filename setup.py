@@ -7,7 +7,7 @@ import setuptools
 import subprocess  
 
 
-def find_eigen(hint=["."]):
+def find_eigen(hint=[]):
     """
     Find the location of the Eigen 3 include directory. This will return
     ``None`` on failure.
@@ -70,7 +70,7 @@ ext_modules = [
             './TFRE',
             get_pybind_include(),
             get_pybind_include(user=True),
-            find_eigen([''])
+            find_eigen([os.getcwd()])
         ],
         language='c++'
     )
