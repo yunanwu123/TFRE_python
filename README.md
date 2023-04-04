@@ -7,7 +7,7 @@ To install the package, please run the following command in Terminal:
 ```{python} 
 pip install git+https://github.com/yunanwu123/TFRE_python
 ```
-This package requires the C++ template library [eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page). Please download it before installation.
+This package requires the C++ template library [eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page). You can download it before installation.
 
 ## Reference
 
