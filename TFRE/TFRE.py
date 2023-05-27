@@ -179,45 +179,40 @@ class TFRE:
             return 
 
         n = X.shape[0]
-        res = np.zeros(times)
-        for i in range(times):
-            epsilon_tfre = np.random.permutation(n)  
-            xi = 2*epsilon_tfre-(n+1)
-            S = (-2/n/(n-1))*X.T.dot(xi)
-            res[i] = max(abs(S))
+        epsilon_tfre = np.random.choice(np.arange(1, n+1), size=(times, n))
+        xi = 2 * epsilon_tfre - (n + 1)
+        S = (-2 / n / (n - 1)) * X.T.dot(xi.T)
+        res = np.apply_along_axis(lambda t: np.max(np.abs(t)), axis=0, arr=S)
+ 
         
         return np.quantile(res,1-alpha0)*const_lambda
     
     
     def __p_diff(self, theta, second_stage, lamb, a = 3.7):
+        theta = abs(theta)
         if second_stage == "scad":
-            less = theta<=lamb
-            y = np.maximum(a*lamb-theta,0)
-            res = lamb*less+y*(1-less)/(a-1)
+            less = np.less.outer(theta, lamb)  
+            y = np.maximum(np.add.outer(-theta, a * lamb),0)
+            res = np.multiply(less,lamb) + np.divide(np.multiply(y, (1 - less)), (a - 1))
+
         else:
-            res = np.minimum(lamb-abs(theta)/a,lamb)
+            res = np.minimum(np.add.outer(-theta / a, lamb), lamb)
             
         return np.maximum(res,1e-3)
  
     
     def __hbic_tfre_second(self, newx, newy, n, beta_int, second_stage, 
                          lambda_list, a, thresh, maxin, maxout, const):
-        n_lamb = lambda_list.shape[0]  
-        p = newx.shape[1]  
-        hbic = np.zeros(n_lamb)
-        Beta = np.zeros([n_lamb,p])
-        C_n = np.log(np.log(n))/n 
-        logp = np.log(p) 
-        lamb_list = np.array([1.0]) 
+        penalty = self.__p_diff(beta_int,second_stage,lambda_list,a) 
+        Beta = QICD(newx, newy, lambda_list=penalty, initial=beta_int, 
+                    thresh=thresh, maxin=maxin, maxout=maxout)
+        df = np.apply_along_axis(lambda t: np.sum(np.abs(t) > 1e-06), axis=1, arr=Beta)
+        hbic1 = np.apply_along_axis(lambda t: np.log(np.sum(np.abs(newy - np.dot(newx, t)))), axis=1, arr=Beta) 
+        hbic2 = np.log(newx.shape[1]) * df * np.log(np.log(n)) / n / const
         
-        for i in range(n_lamb):
-            penalty = self.__p_diff(beta_int,second_stage,lambda_list[i],a)  
-            x_update = np.divide(newx,penalty)
-            obj = QICD.fit(x_update,newy,lamb_list,thresh,maxin,maxout)    
-            beta_2nd = np.divide(obj,penalty)
-            Beta[i,] = beta_2nd 
-            hbic[i] = np.log(np.sum(np.abs(newy - newx.dot(beta_2nd.reshape(p,))))) + logp * np.sum(np.abs(beta_2nd) > 1e-06) * C_n/const
-
+        hbic = hbic1 + hbic2
+         
+         
         return hbic, Beta 
      
         
@@ -303,9 +298,12 @@ class TFRE:
         #{"X": X, "y": y, "incomplete": incomplete, "second_stage": second_stage}
       
         n = len(y)
+        p = X.shape[1]
         xbar = X.mean(0)
         ybar = y.mean()
         lam_lasso = np.array([self.est_lambda(X, alpha0, const_lambda, times)])
+        initial = np.zeros(p)
+
           
         def numpy_pairwise_combinations(x):
             idx = np.stack(np.triu_indices(len(x), k=1), axis=-1)
@@ -323,7 +321,7 @@ class TFRE:
             newx = x_diff
             newy = y_diff 
       
-        beta_Lasso = QICD.fit(newx, newy, lam_lasso, thresh, maxin, maxout)
+        beta_Lasso = QICD.fit(newx, newy, np.full((p, 1), lam_lasso), initial, thresh, maxin, maxout)
         intercpt_Lasso = ybar - beta_Lasso.dot(xbar) 
         beta_TFRE_Lasso = np.append(intercpt_Lasso, beta_Lasso) 
           
@@ -342,7 +340,7 @@ class TFRE:
         elif second_stage == "mcp":
             hbic, beta_mcp = self.__hbic_tfre_second(newx, newy, n, beta_Lasso, 
                                                      second_stage, eta_list, a, 
-                                                     thresh, maxin, maxout, const_hbic)
+                                                     thresh, maxin, maxout, const_hbic) 
             intercpt_mcp = ybar - beta_mcp.dot(xbar)  
             Beta_TFRE_mcp = np.column_stack((intercpt_mcp,beta_mcp))  
             min_ind = hbic.argmin(0) 

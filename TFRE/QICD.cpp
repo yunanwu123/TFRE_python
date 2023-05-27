@@ -22,15 +22,15 @@ double weighted_median(const Eigen::VectorXd & beta, const Eigen::VectorXd & wei
   return beta(ind(i-1));
 }
 
-Eigen::VectorXd QCD(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::VectorXd initial, 
-                    const double lambda, const double thresh, const int maxin){	
+Eigen::VectorXd QCD(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::VectorXd initial,
+                    Eigen::VectorXd lambda, const double thresh, const int maxin){
   
   int p = X.cols();  
   int n = X.rows(); 
   Eigen::VectorXd pre_value_final(n+1), beta(p), xj(n), beta_j(p-1); 
   Eigen::MatrixXd X_j(n,p-1); 
   Eigen::MatrixXd Weight_mat(n+1,p);
-  Weight_mat << X.cwiseAbs()/n, lambda*Eigen::VectorXd::Ones(p).transpose();
+  Weight_mat << X.cwiseAbs()/n, lambda.transpose();
   beta = initial;
   Eigen::VectorXd pre_value = y - X*beta;
   int countj, count = 0;  
@@ -51,11 +51,11 @@ Eigen::VectorXd QCD(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::VectorXd initia
   return beta;
 }
  
-Eigen::MatrixXd QICD_C(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::VectorXd lambda_list, 
-          const double thresh, const int maxin, const int maxout){	
+Eigen::MatrixXd QICD_C(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::MatrixXd lambda_list, 
+                       Eigen::VectorXd initial, const double thresh, const int maxin,
+                       const int maxout){	
   int p = X.cols();  
-  int nlam = lambda_list.size(); 
-  Eigen::VectorXd initial = Eigen::VectorXd::Zero(p);  
+  int nlam = lambda_list.size();   
   Eigen::VectorXd beta_temp;
   Eigen::MatrixXd beta_final(nlam,p);  
   int count;  
@@ -65,14 +65,13 @@ Eigen::MatrixXd QICD_C(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::VectorXd lam
     count = 0;
     err = 1;
     while((err > thresh) & (count < maxout)){	   
-      beta_temp = QCD(X, y, initial, lambda_list[countlam], thresh, maxin);
+      beta_temp = QCD(X, y, initial, lambda_list.col(countlam), thresh, maxin);
       err = (beta_temp - initial).norm(); 
       initial = beta_temp;
       count++ ;  
     } 
     beta_final.row(countlam) = beta_temp;
-  }
-   
+  } 
   return beta_final;
 }
 
