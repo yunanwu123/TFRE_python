@@ -55,7 +55,7 @@ Eigen::MatrixXd QICD_C(Eigen::MatrixXd X, Eigen::VectorXd y, Eigen::MatrixXd lam
                        Eigen::VectorXd initial, const double thresh, const int maxin,
                        const int maxout){	
   int p = X.cols();  
-  int nlam = lambda_list.size();   
+  int nlam = lambda_list.cols(); 
   Eigen::VectorXd beta_temp;
   Eigen::MatrixXd beta_final(nlam,p);  
   int count;  

@@ -189,7 +189,7 @@ class TFRE:
     
     
     def __p_diff(self, theta, second_stage, lamb, a = 3.7):
-        theta = abs(theta)
+        theta = np.abs(theta)
         if second_stage == "scad":
             less = np.less.outer(theta, lamb)  
             y = np.maximum(np.add.outer(-theta, a * lamb),0)
@@ -198,14 +198,13 @@ class TFRE:
         else:
             res = np.minimum(np.add.outer(-theta / a, lamb), lamb)
             
-        return np.maximum(res,1e-3)
+        return np.maximum(res,1e-4)
  
     
     def __hbic_tfre_second(self, newx, newy, n, beta_int, second_stage, 
                          lambda_list, a, thresh, maxin, maxout, const):
-        penalty = self.__p_diff(beta_int,second_stage,lambda_list,a) 
-        Beta = QICD(newx, newy, lambda_list=penalty, initial=beta_int, 
-                    thresh=thresh, maxin=maxin, maxout=maxout)
+        penalty = self.__p_diff(beta_int.reshape(-1),second_stage,lambda_list,a) 
+        Beta = QICD.fit(newx, newy, penalty, beta_int, thresh, maxin, maxout)
         df = np.apply_along_axis(lambda t: np.sum(np.abs(t) > 1e-06), axis=1, arr=Beta)
         hbic1 = np.apply_along_axis(lambda t: np.log(np.sum(np.abs(newy - np.dot(newx, t)))), axis=1, arr=Beta) 
         hbic2 = np.log(newx.shape[1]) * df * np.log(np.log(n)) / n / const
@@ -328,7 +327,7 @@ class TFRE:
         self.TFRE_Lasso = self.Lasso(beta_TFRE_Lasso,lam_lasso) 
         
         if second_stage == "scad":
-            hbic, beta_scad = self.__hbic_tfre_second(newx, newy, n, beta_Lasso, 
+            hbic, beta_scad = self.__hbic_tfre_second(newx, newy, n, beta_Lasso.reshape(-1), 
                                                       second_stage, eta_list, a, 
                                                       thresh, maxin, maxout, const_hbic) 
             intercpt_scad = ybar - beta_scad.dot(xbar) 
@@ -338,7 +337,7 @@ class TFRE:
             self.TFRE_scad = self.SCAD(Beta_TFRE_scad,df_TFRE_scad,eta_list,hbic,min_ind) 
               
         elif second_stage == "mcp":
-            hbic, beta_mcp = self.__hbic_tfre_second(newx, newy, n, beta_Lasso, 
+            hbic, beta_mcp = self.__hbic_tfre_second(newx, newy, n, beta_Lasso.reshape(-1), 
                                                      second_stage, eta_list, a, 
                                                      thresh, maxin, maxout, const_hbic) 
             intercpt_mcp = ybar - beta_mcp.dot(xbar)  
@@ -464,10 +463,10 @@ class TFRE:
         >>> obj = TFRE()
         >>> obj.fit(X,y,eta_list=np.arange(0.09,0.51,0.03))
         >>> 
-        >>> obj..coef("1st")[:10]
+        >>> obj.coef("1st")[:10]
         array([-0.12943468,  1.21390299, -0.82102807,  0.56632981, -0.20740154,
                 0.        ,  0.        ,  0.        ,  0.        ,  0.        ])
-        >>> obj..coef("2nd")[:10]
+        >>> obj.coef("2nd")[:10]
         array([-0.13552865,  1.63426996, -1.13200778,  1.1699545 , -0.47397631,
                 0.17350995,  0.        ,  0.        ,  0.        ,  0.        ])
         
