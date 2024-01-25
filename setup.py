@@ -21,6 +21,7 @@ def find_eigen(hint=[]):
                    "/usr/include/eigen3",
                    "/usr/include/local",
                    "/usr/include",
+		   ".",
                    ] + hint
 
     # Loop over search paths and check for the existence of the Eigen/Dense
