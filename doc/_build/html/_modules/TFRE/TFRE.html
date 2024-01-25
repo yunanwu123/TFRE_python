@@ -9,10 +9,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
@@ -47,7 +45,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">QICD</span>
 
 <div class="viewcode-block" id="TFRE"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE">[docs]</a><span class="k">class</span> <span class="nc">TFRE</span><span class="p">:</span>     
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class used to perform TFRE regrssions</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
@@ -66,7 +64,7 @@
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="TFRE.model"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.model">[docs]</a>    <span class="k">class</span> <span class="nc">model</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        a class used to record the regression details.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
@@ -92,7 +90,7 @@
         
     
 <div class="viewcode-block" id="TFRE.Lasso"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.Lasso">[docs]</a>    <span class="k">class</span> <span class="nc">Lasso</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        a class used to record the results of the TFRE regrssion with Lasso penalty. </span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
@@ -110,7 +108,7 @@
     
     
 <div class="viewcode-block" id="TFRE.SCAD"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.SCAD">[docs]</a>    <span class="k">class</span> <span class="nc">SCAD</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        a class used to record the results of the TFRE regrssion with SCAD penalty. </span>
 <span class="sd">        ``None`` if ``second_stage`` is not ``scad``. </span>
 <span class="sd">        </span>
@@ -146,7 +144,7 @@
  
             
 <div class="viewcode-block" id="TFRE.MCP"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.MCP">[docs]</a>    <span class="k">class</span> <span class="nc">MCP</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        a class used to record the results of the TFRE regrssion with MCP penalty. </span>
 <span class="sd">        ``None`` if ``second_stage`` is not ``mcp``.</span>
 <span class="sd">        </span>
@@ -182,7 +180,7 @@
             
             
 <div class="viewcode-block" id="TFRE.est_lambda"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.est_lambda">[docs]</a>    <span class="k">def</span> <span class="nf">est_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">const_lambda</span> <span class="o">=</span> <span class="mf">1.01</span><span class="p">,</span> <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Estimate the tuning parameter for a TFRE Lasso regression given the covariate matrix X.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate the tuning parameter for a TFRE Lasso regression given the covariate matrix X.</span>
 <span class="sd">         </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -258,7 +256,7 @@
             <span class="n">times</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">incomplete</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">const_incomplete</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> 
             <span class="n">thresh</span> <span class="o">=</span> <span class="mf">1e-06</span><span class="p">,</span> <span class="n">maxin</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">maxout</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">second_stage</span> <span class="o">=</span> <span class="s2">&quot;scad&quot;</span><span class="p">,</span>
             <span class="n">a</span> <span class="o">=</span> <span class="mf">3.7</span><span class="p">,</span> <span class="n">eta_list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">const_hbic</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span> 
-        <span class="sd">&quot;&quot;&quot;Fit a TFRE regression model with Lasso, SCAD or MCP regularization.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit a TFRE regression model with Lasso, SCAD or MCP regularization.</span>
 <span class="sd"> </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -392,7 +390,7 @@
   
              
 <div class="viewcode-block" id="TFRE.predict"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newX</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span> 
-        <span class="sd">&quot;&quot;&quot;Make predictions from a fitted :class:`TFRE` class for new X values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make predictions from a fitted :class:`TFRE` class for new X values.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -466,7 +464,7 @@
     
     
 <div class="viewcode-block" id="TFRE.coef"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.coef">[docs]</a>    <span class="k">def</span> <span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>  
-        <span class="sd">&quot;&quot;&quot;Extract coefficients from a fitted :class:`TFRE` class. </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract coefficients from a fitted :class:`TFRE` class. </span>
 <span class="sd">         </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ---------- </span>
@@ -532,7 +530,7 @@
 
 
 <div class="viewcode-block" id="TFRE.plot"><a class="viewcode-back" href="../../docs/TFRE.html#TFRE.TFRE.TFRE.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
-        <span class="sd">&quot;&quot;&quot;Plot the second stage model curve for a fitted :class:`TFRE` class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the second stage model curve for a fitted :class:`TFRE` class.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -590,6 +588,8 @@
             
             <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tab:purple&#39;</span><span class="p">,</span> 
                         <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">df_TFRE_scad</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">hbic</span><span class="p">)]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">eta_list</span><span class="p">)],</span> <span class="p">[</span><span class="n">y0</span><span class="p">,</span> <span class="n">y0</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:purple&#39;</span><span class="p">)</span>
             
             <span class="n">lns</span> <span class="o">=</span> <span class="p">[</span><span class="n">_lines1_</span><span class="p">,</span> <span class="n">_lines2_</span><span class="p">]</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lns</span><span class="p">]</span>
@@ -615,6 +615,8 @@
             
             <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tab:purple&#39;</span><span class="p">,</span> 
                         <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">df_TFRE_mcp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_scad</span><span class="o">.</span><span class="n">hbic</span><span class="p">)]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_min</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TFRE_mcp</span><span class="o">.</span><span class="n">eta_list</span><span class="p">)],</span> <span class="p">[</span><span class="n">y0</span><span class="p">,</span> <span class="n">y0</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:purple&#39;</span><span class="p">)</span>
             
             <span class="n">lns</span> <span class="o">=</span> <span class="p">[</span><span class="n">_lines1_</span><span class="p">,</span> <span class="n">_lines2_</span><span class="p">]</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lns</span><span class="p">]</span>
@@ -667,7 +669,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2023, Yunan Wu, Lan Wang.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>

@@ -551,6 +551,8 @@ class TFRE:
             
             plt.axvline(x = self.TFRE_scad.eta_min, color = 'tab:purple', 
                         linestyle = "dashed")
+            y0 = self.TFRE_scad.df_TFRE_scad[np.argmin(self.TFRE_scad.hbic)]
+            plt.plot([self.TFRE_scad.eta_min, max(self.TFRE_scad.eta_list)], [y0, y0], linestyle='dashed', color='tab:purple')
             
             lns = [_lines1_, _lines2_]
             labels = [l.get_label() for l in lns]
@@ -576,6 +578,8 @@ class TFRE:
             
             plt.axvline(x = self.TFRE_mcp.eta_min, color = 'tab:purple', 
                         linestyle = "dashed")
+            y0 = self.TFRE_mcp.df_TFRE_mcp[np.argmin(self.TFRE_scad.hbic)]
+            plt.plot([self.TFRE_mcp.eta_min, max(self.TFRE_mcp.eta_list)], [y0, y0], linestyle='dashed', color='tab:purple')
             
             lns = [_lines1_, _lines2_]
             labels = [l.get_label() for l in lns]

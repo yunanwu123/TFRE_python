@@ -4,16 +4,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>TFRE package &#8212; TFRE  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -43,13 +41,17 @@
             
   <section id="tfre-package">
 <h1>TFRE package<a class="headerlink" href="#tfre-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
 <section id="module-TFRE.TFRE">
 <span id="tfre-tfre-module"></span><h2>TFRE.TFRE module<a class="headerlink" href="#module-TFRE.TFRE" title="Permalink to this heading">¶</a></h2>
 <p>A Tuning-Free Robust and Efficient (TFRE) Approach to High-dimensional Regression</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">TFRE.TFRE.</span></span><span class="sig-name descname"><span class="pre">TFRE</span></span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class used to perform TFRE regrssions</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to perform TFRE regrssions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -66,7 +68,8 @@ penalty. <code class="docutils literal notranslate"><span class="pre">None</span
 <dl class="py class">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.Lasso">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Lasso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">beta_TFRE_Lasso</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfre_lambda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.Lasso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.Lasso" title="Permalink to this definition">¶</a></dt>
-<dd><p>a class used to record the results of the TFRE regrssion with Lasso penalty.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>a class used to record the results of the TFRE regrssion with Lasso penalty.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -82,7 +85,8 @@ first element is the estimated intercept.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.MCP">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MCP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Beta_TFRE_mcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_TFRE_mcp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hbic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_ind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.MCP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.MCP" title="Permalink to this definition">¶</a></dt>
-<dd><p>a class used to record the results of the TFRE regrssion with MCP penalty.
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>a class used to record the results of the TFRE regrssion with MCP penalty.
 <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">mcp</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -108,7 +112,8 @@ eta value in the TFRE MCP regression.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.SCAD">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SCAD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Beta_TFRE_scad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_TFRE_scad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hbic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_ind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.SCAD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.SCAD" title="Permalink to this definition">¶</a></dt>
-<dd><p>a class used to record the results of the TFRE regrssion with SCAD penalty.
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>a class used to record the results of the TFRE regrssion with SCAD penalty.
 <code class="docutils literal notranslate"><span class="pre">None</span></code> if <code class="docutils literal notranslate"><span class="pre">second_stage</span></code> is not <code class="docutils literal notranslate"><span class="pre">scad</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -134,7 +139,7 @@ eta value in the TFRE SCAD regression.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.coef">
 <span class="sig-name descname"><span class="pre">coef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.coef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.coef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract coefficients from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
+<dd><p>Extract coefficients from a fitted <a class="reference internal" href="#module-TFRE" title="TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – Regression model to use for coefficient extraction. Should be one
@@ -241,11 +246,11 @@ or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;<
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class with attributes “model”, “TFRE_Lasso”,
+<dd class="field-even"><p><strong>self</strong> – a fitted <a class="reference internal" href="#module-TFRE" title="TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class with attributes “model”, “TFRE_Lasso”,
 “TFRE_scad” (if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;scad&quot;</span></code>), and “TFRE_mcp”(if <code class="docutils literal notranslate"><span class="pre">second_stage</span> <span class="pre">=</span> <span class="pre">&quot;mcp&quot;</span></code>).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class</p>
+<dd class="field-odd"><p><a class="reference internal" href="#module-TFRE" title="TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -267,7 +272,8 @@ or <code class="docutils literal notranslate"><span class="pre">&quot;mcp&quot;<
 <dl class="py class">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.model">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incomplete</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second_stage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.model" title="Permalink to this definition">¶</a></dt>
-<dd><p>a class used to record the regression details.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>a class used to record the regression details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -287,7 +293,7 @@ would be used in computation.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the second stage model curve for a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
+<dd><p>Plot the second stage model curve for a fitted <a class="reference internal" href="#module-TFRE" title="TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>This function plots the HBIC curve and the model size curve as a
@@ -324,7 +330,7 @@ the model selected with the smallest HBIC.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="TFRE.TFRE.TFRE.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/TFRE/TFRE.html#TFRE.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#TFRE.TFRE.TFRE.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make predictions from a fitted <a class="reference internal" href="#module-TFRE.TFRE" title="TFRE.TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class for new X values.</p>
+<dd><p>Make predictions from a fitted <a class="reference internal" href="#module-TFRE" title="TFRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFRE</span></code></a> class for new X values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -370,6 +376,9 @@ FRE SCAD or MCP regression with the smallest HBIC.</p>
 </dd></dl>
 
 </section>
+<section id="module-TFRE">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-TFRE" title="Permalink to this heading">¶</a></h2>
+</section>
 </section>
 
 
@@ -383,7 +392,23 @@ FRE SCAD or MCP regression with the smallest HBIC.</p>
     <h3><a href="../index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">TFRE package</a><ul>
-<li><a class="reference internal" href="#module-TFRE.TFRE">TFRE.TFRE module</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-TFRE.TFRE">TFRE.TFRE module</a><ul>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE"><code class="docutils literal notranslate"><span class="pre">TFRE</span></code></a><ul>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.Lasso"><code class="docutils literal notranslate"><span class="pre">TFRE.Lasso</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.MCP"><code class="docutils literal notranslate"><span class="pre">TFRE.MCP</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.SCAD"><code class="docutils literal notranslate"><span class="pre">TFRE.SCAD</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.coef"><code class="docutils literal notranslate"><span class="pre">TFRE.coef()</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.est_lambda"><code class="docutils literal notranslate"><span class="pre">TFRE.est_lambda()</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.fit"><code class="docutils literal notranslate"><span class="pre">TFRE.fit()</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.model"><code class="docutils literal notranslate"><span class="pre">TFRE.model</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.plot"><code class="docutils literal notranslate"><span class="pre">TFRE.plot()</span></code></a></li>
+<li><a class="reference internal" href="#TFRE.TFRE.TFRE.predict"><code class="docutils literal notranslate"><span class="pre">TFRE.predict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-TFRE">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -433,7 +458,7 @@ FRE SCAD or MCP regression with the smallest HBIC.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2023, Yunan Wu, Lan Wang.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>

@@ -13,10 +13,11 @@ def find_eigen(hint=[]):
     ``None`` on failure.
     """
     # List the standard locations including a user supplied hint.
-    search_dirs = ["/usr/local/include/eigen3",
+    search_dirs = [ "/usr/local/include/eigen3",
                    "/usr/local/homebrew/include/eigen3",
                    "/opt/local/var/macports/software/eigen3",
                    "/opt/local/include/eigen3",
+		   "/opt/homebrew/include/eigen3",
                    "/usr/include/eigen3",
                    "/usr/include/local",
                    "/usr/include",
@@ -70,11 +71,12 @@ ext_modules = [
             './TFRE',
             get_pybind_include(),
             get_pybind_include(user=True),
-            find_eigen([os.getcwd()])
+            find_eigen([''])
         ],
         language='c++'
     )
 ]
+
 
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
@@ -140,7 +142,7 @@ setup(
     version=__version__,
     description=DESCRIPTION,  
     license="MIT license", 
-    python_requires='>=3.6',
+    python_requires='>=3.10',
     keywords=['TFRE', 'high dimensional analysis'], 
     author = "Yunan Wu, Lan Wang",
     author_email= "yunan.wu@utdallas.edu, lanwang@mbs.miami.edu",
