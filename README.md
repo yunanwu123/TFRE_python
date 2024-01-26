@@ -3,9 +3,10 @@
 
 You can preview the package documentation [here](https://rawcdn.githack.com/yunanwu123/TFRE_python/58029648199f9f4db1fc257bedacb0f2774102b0/doc/_build/html/index.html).
 
-To install the package, please run the following command in Terminal: 
+To install the package, please run one of following commands in Terminal: 
 ```{python} 
 pip install git+https://github.com/yunanwu123/TFRE_python
+pip install -i https://test.pypi.org/simple/ TFRE
 ```
 This package requires the C++ template library [eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page). Please download it before installation.
 
