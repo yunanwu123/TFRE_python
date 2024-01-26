@@ -29,3 +29,4 @@ jobs:
       - name: Build 
         run: |
           python setup.py sdist
+          python -m build
