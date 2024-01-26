@@ -135,8 +135,11 @@ class BuildExt(build_ext):
 
  
 
-__version__  = '0.0.1' 
+__version__  = '0.0.0.1' 
 DESCRIPTION = 'A Tuning-Free Robust and Efficient Approach to High-dimensional Regression' 
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup( 
     name='TFRE',
@@ -161,5 +164,7 @@ setup(
     packages=['TFRE'], 
     cmdclass={"build_ext": BuildExt},
     ext_modules=ext_modules,  
+    long_description=long_description,
+    long_description_content_type='text/markdown',
 )
  
