@@ -7,6 +7,7 @@ To install the package, please run one of following commands in Terminal:
 ```{python} 
 pip install git+https://github.com/yunanwu123/TFRE_python
 pip install -i https://test.pypi.org/simple/ TFRE
+pip install TFRE
 ```
 This package requires the C++ template library [eigen3](https://eigen.tuxfamily.org/index.php?title=Main_Page). Please download it before installation.
 
